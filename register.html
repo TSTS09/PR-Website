@@ -9,6 +9,232 @@
     <link rel="stylesheet" href="assets/css/components.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <style>
+        /* Enhanced form styling */
+        .registration-form {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+
+        .form-section {
+            margin-bottom: 2.5rem;
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            color: var(--primary-color, #C8102E);
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .form-group {
+            position: relative;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--dark-gray, #333);
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.875rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: #fafafa;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary-color, #C8102E);
+            background: white;
+            box-shadow: 0 0 0 3px rgba(200, 16, 46, 0.1);
+        }
+
+        .form-group.error input,
+        .form-group.error select,
+        .form-group.error textarea {
+            border-color: #dc3545;
+            background: #fff5f5;
+        }
+
+        .error-message {
+            color: #dc3545;
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
+            display: none;
+        }
+
+        .pricing-info {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            text-align: center;
+        }
+
+        .price-highlight {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary-color, #C8102E);
+            margin: 0.5rem 0;
+        }
+
+        .submit-section {
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 2px solid #f0f0f0;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-color, #C8102E), #A8001E);
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            justify-content: center;
+            min-width: 200px;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(200, 16, 46, 0.3);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .loading-spinner {
+            width: 20px;
+            height: 20px;
+            border: 2px solid #ffffff;
+            border-top: 2px solid transparent;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .success-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .success-modal.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .success-modal-content {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+        }
+
+        .success-modal.show .success-modal-content {
+            transform: scale(1);
+        }
+
+        .success-icon {
+            width: 80px;
+            height: 80px;
+            background: #28a745;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            color: white;
+        }
+
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            color: white;
+            font-weight: 500;
+            z-index: 10001;
+            transform: translateX(400px);
+            transition: transform 0.3s ease;
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        .notification.success {
+            background: #28a745;
+        }
+
+        .notification.error {
+            background: #dc3545;
+        }
+
+        .notification.warning {
+            background: #ffc107;
+            color: #333;
+        }
+
+        @media (max-width: 768px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
 <body>
     <!-- Navigation -->
@@ -84,7 +310,7 @@
                         <i data-lucide="clock"></i>
                         <div>
                             <strong>Duration</strong>
-                            <span>Full Day Experience</span>
+                            <span>Full Day Event</span>
                         </div>
                     </div>
                 </div>
@@ -92,273 +318,219 @@
         </div>
     </section>
 
-    <!-- Registration Process -->
-    <section class="registration-process">
+    <!-- Registration Content -->
+    <section class="registration-content">
         <div class="container">
-            <h2 class="section-title center">Registration Process</h2>
-            <div class="process-steps">
-                <div class="process-step">
-                    <div class="step-number">1</div>
-                    <h3>Submit Application</h3>
-                    <p>Fill out the comprehensive application form below with your details and motivation.</p>
-                </div>
-                <div class="process-step">
-                    <div class="step-number">2</div>
-                    <h3>Review Process</h3>
-                    <p>Our team carefully reviews all applications to ensure the right mix of participants.</p>
-                </div>
-                <div class="process-step">
-                    <div class="step-number">3</div>
-                    <h3>Notification</h3>
-                    <p>Selected participants will be contacted via email with payment instructions.</p>
-                </div>
-                <div class="process-step">
-                    <div class="step-number">4</div>
-                    <h3>Confirmation</h3>
-                    <p>Complete payment to secure your spot and receive your summit confirmation.</p>
-                </div>
+            <div class="pricing-info">
+                <h3>Summit Registration</h3>
+                <div class="price-highlight" id="currentPrice">$120 USD</div>
+                <p><strong>Early Bird Special</strong> - Valid until August 15, 2025</p>
+                <p><small>Regular price: $150 USD | Student discount: $75 USD</small></p>
             </div>
-        </div>
-    </section>
 
-    <!-- Registration Form -->
-    <section class="registration-form-section">
-        <div class="container">
-            <div class="form-container">
-                <div class="form-header">
-                    <h2>Summit Application</h2>
-                    <p>Please note that registrations are carefully reviewed, and selected participants will be contacted. All fields marked with * are required.</p>
-                </div>
-
-                <form id="registrationForm" class="registration-form" novalidate>
-                    <!-- Personal Information -->
-                    <div class="form-section">
-                        <h3 class="section-title">Personal Information</h3>
-                        <div class="form-grid">
-                            <div class="form-group">
-                                <label for="firstName">First Name *</label>
-                                <input type="text" id="firstName" name="first_name" required>
-                                <div class="error-message"></div>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label for="lastName">Last Name *</label>
-                                <input type="text" id="lastName" name="last_name" required>
-                                <div class="error-message"></div>
-                            </div>
-                            
-                            <div class="form-group full-width">
-                                <label for="email">Email Address *</label>
-                                <input type="email" id="email" name="email" required>
-                                <div class="error-message"></div>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label for="phone">Phone Number</label>
-                                <input type="tel" id="phone" name="phone">
-                                <div class="error-message"></div>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label for="country">Country *</label>
-                                <select id="country" name="country" required>
-                                    <option value="">Select Country</option>
-                                    <option value="Ghana">Ghana</option>
-                                    <option value="Nigeria">Nigeria</option>
-                                    <option value="Kenya">Kenya</option>
-                                    <option value="South Africa">South Africa</option>
-                                    <option value="United Kingdom">United Kingdom</option>
-                                    <option value="United States">United States</option>
-                                    <option value="Canada">Canada</option>
-                                    <option value="France">France</option>
-                                    <option value="Other">Other</option>
-                                </select>
-                                <div class="error-message"></div>
-                            </div>
-                            
-                            <div class="form-group full-width">
-                                <label for="city">City *</label>
-                                <input type="text" id="city" name="city" required>
-                                <div class="error-message"></div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Professional Information -->
-                    <div class="form-section">
-                        <h3 class="section-title">Professional Information</h3>
-                        <div class="form-grid">
-                            <div class="form-group">
-                                <label for="organization">Organization/Company</label>
-                                <input type="text" id="organization" name="organization">
-                                <div class="error-message"></div>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label for="jobTitle">Job Title/Position *</label>
-                                <input type="text" id="jobTitle" name="job_title" required>
-                                <div class="error-message"></div>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label for="industrySector">Industry Sector *</label>
-                                <select id="industrySector" name="industry_sector" required>
-                                    <option value="">Select Sector</option>
-                                    <option value="Fashion Design">Fashion Design</option>
-                                    <option value="Textile Manufacturing">Textile Manufacturing</option>
-                                    <option value="Retail">Retail</option>
-                                    <option value="Education">Education</option>
-                                    <option value="Government">Government</option>
-                                    <option value="Media">Media</option>
-                                    <option value="Investment/Finance">Investment/Finance</option>
-                                    <option value="Development Organizations">Development Organizations</option>
-                                    <option value="Technology">Technology</option>
-                                    <option value="Other">Other</option>
-                                </select>
-                                <div class="error-message"></div>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label for="yearsExperience">Years of Experience *</label>
-                                <select id="yearsExperience" name="years_experience" required>
-                                    <option value="">Select Range</option>
-                                    <option value="0-2">0-2 years</option>
-                                    <option value="3-5">3-5 years</option>
-                                    <option value="6-10">6-10 years</option>
-                                    <option value="11-15">11-15 years</option>
-                                    <option value="16-20">16-20 years</option>
-                                    <option value="20+">20+ years</option>
-                                </select>
-                                <div class="error-message"></div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Application Details -->
-                    <div class="form-section">
-                        <h3 class="section-title">Application Details</h3>
-                        <div class="form-grid">
-                            <div class="form-group full-width">
-                                <label for="applicationType">Application Type *</label>
-                                <select id="applicationType" name="application_type" required>
-                                    <option value="">Select Application Type</option>
-                                    <option value="attendee">Summit Attendee</option>
-                                    <option value="speaker">Potential Speaker</option>
-                                    <option value="media">Media Representative</option>
-                                    <option value="student">Student (with valid ID)</option>
-                                </select>
-                                <div class="error-message"></div>
-                            </div>
-                            
-                            <div class="form-group full-width">
-                                <label for="motivation">Why do you want to attend the Business of Ghanaian Fashion Summit? *</label>
-                                <textarea id="motivation" name="motivation" rows="4" required placeholder="Share your motivation, interests, and what draws you to this summit..."></textarea>
-                                <div class="error-message"></div>
-                            </div>
-                            
-                            <div class="form-group full-width">
-                                <label for="expectations">What do you hope to gain from attending? *</label>
-                                <textarea id="expectations" name="expectations" rows="4" required placeholder="Describe your goals, learning objectives, and expected outcomes..."></textarea>
-                                <div class="error-message"></div>
-                            </div>
-                            
-                            <div class="form-group full-width">
-                                <label for="contribution">How can you contribute to the summit discussions and Ghana's fashion ecosystem?</label>
-                                <textarea id="contribution" name="contribution" rows="4" placeholder="Share your expertise, experiences, or perspectives that could benefit other participants..."></textarea>
-                                <div class="error-message"></div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Additional Information -->
-                    <div class="form-section">
-                        <h3 class="section-title">Additional Information</h3>
-                        <div class="form-grid">
-                            <div class="form-group">
-                                <label for="howHeard">How did you hear about the summit?</label>
-                                <select id="howHeard" name="how_heard_about">
-                                    <option value="">Select Source</option>
-                                    <option value="Website">Website</option>
-                                    <option value="Social Media">Social Media</option>
-                                    <option value="Email Newsletter">Email Newsletter</option>
-                                    <option value="Word of Mouth">Word of Mouth</option>
-                                    <option value="Partner Organization">Partner Organization</option>
-                                    <option value="Media Coverage">Media Coverage</option>
-                                    <option value="Other">Other</option>
-                                </select>
-                                <div class="error-message"></div>
-                            </div>
-                            
-                            <div class="form-group full-width">
-                                <label for="dietaryRequirements">Dietary Requirements</label>
-                                <input type="text" id="dietaryRequirements" name="dietary_requirements" placeholder="Any dietary restrictions or preferences">
-                                <div class="error-message"></div>
-                            </div>
-                            
-                            <div class="form-group full-width">
-                                <label for="accessibilityNeeds">Accessibility Needs</label>
-                                <textarea id="accessibilityNeeds" name="accessibility_needs" rows="3" placeholder="Any accessibility accommodations you may need"></textarea>
-                                <div class="error-message"></div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Consent and Submit -->
-                    <div class="form-section">
-                        <div class="consent-section">
-                            <label class="checkbox-label">
-                                <input type="checkbox" id="marketingConsent" name="marketing_consent" value="1">
-                                <span class="checkmark"></span>
-                                I would like to receive updates about BoGF programs, events, and Ghana's fashion industry developments.
-                            </label>
-                            
-                            <label class="checkbox-label required-consent">
-                                <input type="checkbox" id="privacyConsent" name="privacy_consent" value="1" required>
-                                <span class="checkmark"></span>
-                                I agree to the <a href="privacy.html" target="_blank">Privacy Policy</a> and <a href="terms.html" target="_blank">Terms of Service</a> *
-                            </label>
-                            
-                            <div class="error-message" id="consentError"></div>
+            <form id="registrationForm" class="registration-form" novalidate>
+                <!-- CSRF Token -->
+                <input type="hidden" name="csrf_token" id="csrfToken" value="">
+                
+                <!-- Personal Information -->
+                <div class="form-section">
+                    <h3 class="section-title">Personal Information</h3>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="firstName">First Name *</label>
+                            <input type="text" id="firstName" name="first_name" required>
+                            <div class="error-message"></div>
                         </div>
                         
-                        <div class="submit-section">
-                            <button type="submit" class="btn btn-primary btn-large">
-                                <i data-lucide="send"></i>
-                                Submit Application
-                            </button>
-                            
-                            <p class="submit-note">
-                                <i data-lucide="info"></i>
-                                Applications are reviewed carefully. Selected participants will be contacted within 2-3 weeks.
-                            </p>
+                        <div class="form-group">
+                            <label for="lastName">Last Name *</label>
+                            <input type="text" id="lastName" name="last_name" required>
+                            <div class="error-message"></div>
+                        </div>
+                        
+                        <div class="form-group full-width">
+                            <label for="email">Email Address *</label>
+                            <input type="email" id="email" name="email" required>
+                            <div class="error-message"></div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="phone">Phone Number *</label>
+                            <input type="tel" id="phone" name="phone" required placeholder="+233 XX XXX XXXX">
+                            <div class="error-message"></div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="country">Country *</label>
+                            <select id="country" name="country" required>
+                                <option value="">Select Country</option>
+                                <option value="Ghana" selected>Ghana</option>
+                                <option value="Nigeria">Nigeria</option>
+                                <option value="Kenya">Kenya</option>
+                                <option value="South Africa">South Africa</option>
+                                <option value="United States">United States</option>
+                                <option value="United Kingdom">United Kingdom</option>
+                                <option value="Canada">Canada</option>
+                                <option value="Other">Other</option>
+                            </select>
+                            <div class="error-message"></div>
                         </div>
                     </div>
-                </form>
-            </div>
+                </div>
+
+                <!-- Professional Information -->
+                <div class="form-section">
+                    <h3 class="section-title">Professional Information</h3>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="organization">Organization/Company *</label>
+                            <input type="text" id="organization" name="organization" required>
+                            <div class="error-message"></div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="jobTitle">Job Title/Position *</label>
+                            <input type="text" id="jobTitle" name="job_title" required>
+                            <div class="error-message"></div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="industrySector">Industry Sector *</label>
+                            <select id="industrySector" name="industry_sector" required>
+                                <option value="">Select Sector</option>
+                                <option value="Fashion Design">Fashion Design</option>
+                                <option value="Retail">Retail</option>
+                                <option value="Manufacturing">Manufacturing</option>
+                                <option value="Media & Marketing">Media & Marketing</option>
+                                <option value="Investment & Finance">Investment & Finance</option>
+                                <option value="Education">Education</option>
+                                <option value="Government">Government</option>
+                                <option value="Non-profit">Non-profit</option>
+                                <option value="Other">Other</option>
+                            </select>
+                            <div class="error-message"></div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="experienceYears">Years of Experience *</label>
+                            <select id="experienceYears" name="years_experience" required>
+                                <option value="">Select Experience</option>
+                                <option value="0-2">0-2 years</option>
+                                <option value="3-5">3-5 years</option>
+                                <option value="6-10">6-10 years</option>
+                                <option value="11-15">11-15 years</option>
+                                <option value="16+">16+ years</option>
+                            </select>
+                            <div class="error-message"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Participation Details -->
+                <div class="form-section">
+                    <h3 class="section-title">Participation Details</h3>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="applicationType">Registration Type *</label>
+                            <select id="applicationType" name="application_type" required>
+                                <option value="attendee">Regular Attendee</option>
+                                <option value="student">Student (Discount Available)</option>
+                                <option value="speaker">Speaker Application</option>
+                                <option value="sponsor">Sponsor Inquiry</option>
+                                <option value="media">Media Representative</option>
+                            </select>
+                            <div class="error-message"></div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="howHeard">How did you hear about us? *</label>
+                            <select id="howHeard" name="how_heard_about" required>
+                                <option value="">Select Source</option>
+                                <option value="Website">Website</option>
+                                <option value="Social Media">Social Media</option>
+                                <option value="Email Newsletter">Email Newsletter</option>
+                                <option value="Word of Mouth">Word of Mouth</option>
+                                <option value="Partner Organization">Partner Organization</option>
+                                <option value="Media Coverage">Media Coverage</option>
+                                <option value="Other">Other</option>
+                            </select>
+                            <div class="error-message"></div>
+                        </div>
+                        
+                        <div class="form-group full-width">
+                            <label for="motivation">Why do you want to attend this summit? *</label>
+                            <textarea id="motivation" name="motivation" rows="4" required placeholder="Share your motivation, interests, and what draws you to this summit..." maxlength="1000"></textarea>
+                            <div class="character-counter">1000 characters remaining</div>
+                            <div class="error-message"></div>
+                        </div>
+                        
+                        <div class="form-group full-width">
+                            <label for="expectations">What do you hope to gain from attending? *</label>
+                            <textarea id="expectations" name="expectations" rows="4" required placeholder="Describe your goals, learning objectives, and expected outcomes..." maxlength="1000"></textarea>
+                            <div class="character-counter">1000 characters remaining</div>
+                            <div class="error-message"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Additional Information -->
+                <div class="form-section">
+                    <h3 class="section-title">Additional Information</h3>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="dietaryRequirements">Dietary Requirements</label>
+                            <input type="text" id="dietaryRequirements" name="dietary_requirements" placeholder="e.g., Vegetarian, Vegan, Halal, Allergies">
+                            <div class="error-message"></div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="accessibilityNeeds">Accessibility Needs</label>
+                            <input type="text" id="accessibilityNeeds" name="accessibility_needs" placeholder="Any special accommodations needed">
+                            <div class="error-message"></div>
+                        </div>
+                        
+                        <div class="form-group full-width">
+                            <label>
+                                <input type="checkbox" id="marketingConsent" name="marketing_consent" value="1">
+                                I would like to receive updates about Fashion Nexus Ghana events and initiatives
+                            </label>
+                        </div>
+                        
+                        <div class="form-group full-width">
+                            <label>
+                                <input type="checkbox" id="privacyConsent" name="privacy_consent" value="1" required>
+                                I agree to the <a href="privacy-policy.html" target="_blank">Privacy Policy</a> and <a href="terms-of-service.html" target="_blank">Terms of Service</a> *
+                            </label>
+                            <div class="error-message" id="consentError"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Submit Section -->
+                <div class="submit-section">
+                    <button type="submit" class="btn-primary" id="submitButton">
+                        <span>Submit Registration</span>
+                        <i data-lucide="arrow-right"></i>
+                    </button>
+                    <p><small>You will receive a confirmation email after submission. Registration is subject to approval.</small></p>
+                </div>
+            </form>
         </div>
     </section>
 
     <!-- Success Modal -->
-    <div class="modal" id="successModal">
-        <div class="modal-content">
-            <div class="modal-body success-modal">
-                <div class="success-icon">
-                    <i data-lucide="check-circle"></i>
-                </div>
-                <h3>Application Submitted Successfully!</h3>
-                <p>Thank you for your interest in the Business of Ghanaian Fashion Summit 2025. We have received your application and will review it carefully.</p>
-                <p><strong>What's next?</strong></p>
-                <ul>
-                    <li>Our team will review your application within 2-3 weeks</li>
-                    <li>Selected participants will be contacted via email</li>
-                    <li>You'll receive payment instructions if approved</li>
-                    <li>Final confirmation after payment completion</li>
-                </ul>
-                <div class="modal-actions">
-                    <button class="btn btn-primary" onclick="closeSuccessModal()">Continue</button>
-                    <a href="index.html" class="btn btn-secondary">Return to Homepage</a>
-                </div>
+    <div id="successModal" class="success-modal">
+        <div class="success-modal-content">
+            <div class="success-icon">
+                <i data-lucide="check" style="width: 40px; height: 40px;"></i>
             </div>
+            <h2>Registration Submitted!</h2>
+            <p>Thank you for your interest in the Business of Ghanaian Fashion Summit 2025.</p>
+            <p><strong>Application ID:</strong> <span id="applicationId"></span></p>
+            <p>We've sent a confirmation email to <strong id="confirmationEmail"></strong>. Our team will review your application and get back to you within 48 hours.</p>
+            <button class="btn-primary" onclick="closeSuccessModal()" style="margin-top: 1rem;">
+                Close
+            </button>
         </div>
     </div>
 
@@ -367,53 +539,446 @@
         <div class="container">
             <div class="footer-content">
                 <div class="footer-section">
-                    <h3>Business of Ghanaian Fashion</h3>
-                    <p>Building a sustainable future for Ghana's fashion industry through connection, creativity, and coordinated action.</p>
-                    <div class="social-links">
-                        <a href="#" aria-label="Instagram"><i data-lucide="instagram"></i></a>
-                        <a href="#" aria-label="LinkedIn"><i data-lucide="linkedin"></i></a>
-                        <a href="#" aria-label="YouTube"><i data-lucide="youtube"></i></a>
-                    </div>
+                    <h3>Fashion Nexus Ghana</h3>
+                    <p>Catalyzing Ghana's fashion industry through strategic business development and international partnerships.</p>
                 </div>
                 
                 <div class="footer-section">
-                    <h4>Quick Links</h4>
-                    <ul>
-                        <li><a href="about.html">About Us</a></li>
-                        <li><a href="summit.html">Summit 2025</a></li>
-                        <li><a href="programs.html">Programs</a></li>
-                        <li><a href="get-involved.html">Get Involved</a></li>
-                    </ul>
-                </div>
-                
-                <div class="footer-section">
-                    <h4>Resources</h4>
-                    <ul>
-                        <li><a href="resources.html">Media & Resources</a></li>
-                        <li><a href="speakers.html">Featured Voices</a></li>
-                        <li><a href="partners.html">Partners</a></li>
-                        <li><a href="contact.html">Contact</a></li>
-                    </ul>
-                </div>
-                
-                <div class="footer-section">
-                    <h4>Contact</h4>
+                    <h4>Contact Info</h4>
                     <p>Email: info@fashionnexusghana.com</p>
-                    <a href="register.html" class="btn btn-sm btn-primary">Register Now</a>
+                    <p>Phone: +233 XX XXX XXXX</p>
+                    <p>Location: Accra, Ghana</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Follow Us</h4>
+                    <div class="social-links">
+                        <a href="#" aria-label="LinkedIn"><i data-lucide="linkedin"></i></a>
+                        <a href="#" aria-label="Twitter"><i data-lucide="twitter"></i></a>
+                        <a href="#" aria-label="Instagram"><i data-lucide="instagram"></i></a>
+                        <a href="#" aria-label="Facebook"><i data-lucide="facebook"></i></a>
+                    </div>
                 </div>
             </div>
             
             <div class="footer-bottom">
-                <p>&copy; 2025 Business of Ghanaian Fashion. Presented by Fashion Nexus Ghana.</p>
+                <p>&copy; 2025 Fashion Nexus Ghana. All rights reserved.</p>
                 <div class="footer-links">
-                    <a href="privacy.html">Privacy Policy</a>
-                    <a href="terms.html">Terms</a>
+                    <a href="privacy-policy.html">Privacy Policy</a>
+                    <a href="terms-of-service.html">Terms of Service</a>
                 </div>
             </div>
         </div>
     </footer>
 
+    <!-- Scripts -->
     <script src="assets/js/main.js"></script>
-    <script src="assets/js/registration.js"></script>
+    <script>
+        // Enhanced Registration Form JavaScript
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeRegistrationForm();
+        });
+
+        async function initializeRegistrationForm() {
+            // Generate and set CSRF token
+            await generateCSRFToken();
+            
+            // Initialize form validation
+            initializeFormValidation();
+            
+            // Initialize character counters
+            initializeCharacterCounters();
+            
+            // Initialize form submission
+            document.getElementById('registrationForm').addEventListener('submit', handleFormSubmission);
+            
+            // Initialize price updates
+            initializePriceUpdates();
+        }
+
+        async function generateCSRFToken() {
+            try {
+                const response = await fetch('api/get_csrf_token.php');
+                const data = await response.json();
+                if (data.success) {
+                    document.getElementById('csrfToken').value = data.data.csrf_token;
+                }
+            } catch (error) {
+                console.warn('Could not generate CSRF token:', error);
+            }
+        }
+
+        function initializeFormValidation() {
+            const inputs = document.querySelectorAll('input, select, textarea');
+            
+            inputs.forEach(input => {
+                input.addEventListener('blur', function() {
+                    validateField(this);
+                });
+                
+                input.addEventListener('focus', function() {
+                    clearFieldError(this);
+                });
+                
+                // Special handling for email
+                if (input.type === 'email') {
+                    input.addEventListener('input', debounce(function() {
+                        if (this.value.length > 0) {
+                            validateEmail(this);
+                        }
+                    }, 300));
+                }
+                
+                // Special handling for phone
+                if (input.type === 'tel') {
+                    input.addEventListener('input', function() {
+                        formatPhoneNumber(this);
+                    });
+                }
+            });
+        }
+
+        function initializeCharacterCounters() {
+            const textareas = document.querySelectorAll('textarea[maxlength]');
+            
+            textareas.forEach(textarea => {
+                const maxLength = parseInt(textarea.getAttribute('maxlength'));
+                const counter = textarea.parentNode.querySelector('.character-counter');
+                
+                if (counter) {
+                    const updateCounter = () => {
+                        const remaining = maxLength - textarea.value.length;
+                        counter.textContent = `${remaining} characters remaining`;
+                        counter.style.color = remaining < 50 ? '#dc3545' : '#666';
+                    };
+                    
+                    textarea.addEventListener('input', updateCounter);
+                    updateCounter();
+                }
+            });
+        }
+
+        function initializePriceUpdates() {
+            const applicationTypeSelect = document.getElementById('applicationType');
+            const priceDisplay = document.getElementById('currentPrice');
+            
+            applicationTypeSelect.addEventListener('change', function() {
+                const selectedType = this.value;
+                let price = '$120 USD'; // Early bird price
+                
+                switch (selectedType) {
+                    case 'student':
+                        price = '$75 USD';
+                        break;
+                    case 'speaker':
+                    case 'sponsor':
+                        price = 'Contact for Details';
+                        break;
+                    case 'media':
+                        price = 'Complimentary';
+                        break;
+                }
+                
+                priceDisplay.textContent = price;
+            });
+        }
+
+        async function handleFormSubmission(e) {
+            e.preventDefault();
+            
+            // Validate form
+            if (!validateForm()) {
+                showNotification('Please correct the errors in the form.', 'error');
+                return;
+            }
+            
+            const submitButton = document.getElementById('submitButton');
+            const originalContent = submitButton.innerHTML;
+            
+            // Show loading state
+            submitButton.disabled = true;
+            submitButton.innerHTML = '<div class="loading-spinner"></div><span>Submitting...</span>';
+            
+            try {
+                const formData = new FormData(document.getElementById('registrationForm'));
+                
+                const response = await fetch('api/submit_application.php', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    // Show success modal
+                    document.getElementById('applicationId').textContent = `#APP${result.data.application_id}`;
+                    document.getElementById('confirmationEmail').textContent = result.data.email;
+                    showSuccessModal();
+                    
+                    // Reset form
+                    document.getElementById('registrationForm').reset();
+                    clearAllFieldErrors();
+                    
+                    // Generate new CSRF token
+                    await generateCSRFToken();
+                    
+                } else {
+                    throw new Error(result.message || 'Application submission failed');
+                }
+                
+            } catch (error) {
+                console.error('Form submission error:', error);
+                showNotification(error.message, 'error');
+                
+                // Scroll to first error if any
+                const firstError = document.querySelector('.form-group.error');
+                if (firstError) {
+                    firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+            } finally {
+                // Restore button state
+                submitButton.disabled = false;
+                submitButton.innerHTML = originalContent;
+                
+                // Re-initialize icons
+                if (typeof lucide !== 'undefined') {
+                    lucide.createIcons();
+                }
+            }
+        }
+
+        function validateForm() {
+            const form = document.getElementById('registrationForm');
+            const inputs = form.querySelectorAll('input, select, textarea');
+            let isValid = true;
+            
+            // Clear all previous errors
+            clearAllFieldErrors();
+            
+            // Validate each field
+            inputs.forEach(input => {
+                if (!validateField(input)) {
+                    isValid = false;
+                }
+            });
+            
+            // Special validation for privacy consent
+            const privacyConsent = document.getElementById('privacyConsent');
+            if (!privacyConsent.checked) {
+                const consentError = document.getElementById('consentError');
+                if (consentError) {
+                    consentError.textContent = 'You must agree to the Privacy Policy and Terms of Service';
+                    consentError.style.display = 'block';
+                }
+                isValid = false;
+            }
+            
+            return isValid;
+        }
+
+        function validateField(field) {
+            const value = field.value.trim();
+            const isRequired = field.hasAttribute('required');
+            let isValid = true;
+            let errorMessage = '';
+            
+            // Required field validation
+            if (isRequired && !value) {
+                isValid = false;
+                errorMessage = 'This field is required';
+            }
+            
+            // Specific field validations
+            if (value) {
+                switch (field.type) {
+                    case 'email':
+                        if (!isValidEmail(value)) {
+                            isValid = false;
+                            errorMessage = 'Please enter a valid email address';
+                        }
+                        break;
+                    case 'tel':
+                        if (!isValidPhone(value)) {
+                            isValid = false;
+                            errorMessage = 'Please enter a valid phone number';
+                        }
+                        break;
+                }
+                
+                // Name validation
+                if (field.name === 'first_name' || field.name === 'last_name') {
+                    if (value.length < 2) {
+                        isValid = false;
+                        errorMessage = 'Name must be at least 2 characters';
+                    }
+                }
+                
+                // Textarea minimum length validation
+                if (field.tagName === 'TEXTAREA' && field.hasAttribute('required')) {
+                    const minLength = 50;
+                    if (value.length < minLength) {
+                        isValid = false;
+                        errorMessage = `Please provide at least ${minLength} characters`;
+                    }
+                }
+            }
+            
+            // Show/hide error
+            if (!isValid) {
+                showFieldError(field, errorMessage);
+                field.closest('.form-group').classList.add('error');
+            } else {
+                clearFieldError(field);
+                field.closest('.form-group').classList.remove('error');
+            }
+            
+            return isValid;
+        }
+
+        function validateEmail(field) {
+            const email = field.value.trim();
+            
+            if (email && !isValidEmail(email)) {
+                showFieldError(field, 'Please enter a valid email address');
+                field.closest('.form-group').classList.add('error');
+                return false;
+            } else {
+                clearFieldError(field);
+                field.closest('.form-group').classList.remove('error');
+                return true;
+            }
+        }
+
+        function isValidEmail(email) {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return emailRegex.test(email);
+        }
+
+        function isValidPhone(phone) {
+            // Remove all non-numeric characters
+            const cleaned = phone.replace(/\D/g, '');
+            
+            // Check for valid lengths (Ghana: 10-12 digits, International: 10-15 digits)
+            return cleaned.length >= 10 && cleaned.length <= 15;
+        }
+
+        function formatPhoneNumber(field) {
+            let value = field.value.replace(/\D/g, '');
+            
+            if (value.length > 0) {
+                if (value.startsWith('233')) {
+                    // Ghana format: +233 XX XXX XXXX
+                    if (value.length <= 12) {
+                        value = value.replace(/(\d{3})(\d{2})(\d{3})(\d{0,4})/, '+$1 $2 $3 $4');
+                    }
+                } else if (value.length === 10 && value.startsWith('0')) {
+                    // Convert 0XXXXXXXXX to +233 XXXXXXXXX format
+                    value = '+233 ' + value.substring(1).replace(/(\d{2})(\d{3})(\d{0,4})/, '$1 $2 $3');
+                } else if (value.length === 9) {
+                    // Add Ghana prefix
+                    value = '+233 ' + value.replace(/(\d{2})(\d{3})(\d{0,4})/, '$1 $2 $3');
+                }
+            }
+            
+            field.value = value.trim();
+        }
+
+        function showFieldError(field, message) {
+            const errorElement = field.closest('.form-group').querySelector('.error-message');
+            if (errorElement) {
+                errorElement.textContent = message;
+                errorElement.style.display = 'block';
+            }
+        }
+
+        function clearFieldError(field) {
+            const errorElement = field.closest('.form-group').querySelector('.error-message');
+            if (errorElement) {
+                errorElement.textContent = '';
+                errorElement.style.display = 'none';
+            }
+        }
+
+        function clearAllFieldErrors() {
+            const errors = document.querySelectorAll('.error-message');
+            const groups = document.querySelectorAll('.form-group.error');
+            
+            errors.forEach(error => {
+                error.textContent = '';
+                error.style.display = 'none';
+            });
+            
+            groups.forEach(group => {
+                group.classList.remove('error');
+            });
+        }
+
+        function showSuccessModal() {
+            const modal = document.getElementById('successModal');
+            modal.classList.add('show');
+            document.body.style.overflow = 'hidden';
+            
+            // Re-initialize icons in modal
+            if (typeof lucide !== 'undefined') {
+                lucide.createIcons();
+            }
+        }
+
+        function closeSuccessModal() {
+            const modal = document.getElementById('successModal');
+            modal.classList.remove('show');
+            document.body.style.overflow = '';
+        }
+
+        function showNotification(message, type = 'info') {
+            // Remove existing notifications
+            const existing = document.querySelector('.notification');
+            if (existing) {
+                existing.remove();
+            }
+            
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            notification.textContent = message;
+            
+            document.body.appendChild(notification);
+            
+            // Show notification
+            setTimeout(() => notification.classList.add('show'), 100);
+            
+            // Hide notification after 5 seconds
+            setTimeout(() => {
+                notification.classList.remove('show');
+                setTimeout(() => notification.remove(), 300);
+            }, 5000);
+        }
+
+        // Utility function for debouncing
+        function debounce(func, wait) {
+            let timeout;
+            return function executedFunction(...args) {
+                const later = () => {
+                    clearTimeout(timeout);
+                    func.apply(this, args);
+                };
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+            };
+        }
+
+        // Close modal when clicking outside or pressing escape
+        document.addEventListener('click', function(e) {
+            const modal = document.getElementById('successModal');
+            if (modal && e.target === modal) {
+                closeSuccessModal();
+            }
+        });
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeSuccessModal();
+            }
+        });
+    </script>
 </body>
 </html>
